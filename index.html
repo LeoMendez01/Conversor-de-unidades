@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Convertidor de unidades</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="phone-shell">
+      <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <h1>Convertidor de unidades</h1>
+          <p class="brand">Smart Tools estilo • edición personalizada</p>
+          <div class="meta">
+            <span>⭐ 4.6</span>
+            <span>⬇️ 10M+</span>
+            <span>👨‍👩‍👧‍👦 Público general</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="app-screen">
+        <div class="mode-actions">
+          <button id="salvadorButton" class="mode-btn active" type="button">Unidades salvadoreñas</button>
+          <button id="globalButton" class="mode-btn" type="button">Internacionales</button>
+          <button id="allButton" class="mode-btn" type="button">Todas</button>
+        </div>
+
+        <section class="panel">
+          <div class="section-title">
+            <span id="categoryIcon" class="category-icon">📏</span>
+            <h2 id="categoryTitle">Longitud</h2>
+          </div>
+
+          <div class="grid">
+            <label>
+              <span class="label-title">Categoría</span>
+              <select id="categorySelect"></select>
+            </label>
+            <label>
+              <span class="label-title">Valor</span>
+              <input id="valueInput" type="number" step="any" value="1" />
+            </label>
+            <label>
+              <span class="label-title">Desde</span>
+              <select id="fromSelect"></select>
+            </label>
+            <label>
+              <span class="label-title">Hacia</span>
+              <select id="toSelect"></select>
+            </label>
+          </div>
+
+          <div class="actions">
+            <button id="swapButton" type="button">🔁</button>
+            <button id="convertButton" type="button">Convertir</button>
+          </div>
+        </section>
+
+        <section class="result" id="resultBox" aria-live="polite">Selecciona una conversión.</section>
+
+        <section class="quick-conversions">
+          <h3>Conversiones rápidas</h3>
+          <div id="quickCards" class="quick-grid"></div>
+        </section>
+
+        <details>
+          <summary>Regla de conversión</summary>
+          <code id="ruleText"></code>
+        </details>
+      </section>
+    </main>
+
+    <script src="units-data.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
