@@ -6,8 +6,14 @@ Aplicación web estática estilo móvil para convertir unidades con catálogo co
 
 - Modo **Unidades salvadoreñas** (botón principal).
 - Modos adicionales: **Internacionales** y **Todas**.
-- Conversión con regla:
+- Accesos de conversiones rápidas por categoría.
+- Conversión con la regla:
 
 `value_in_base = value * from.to_base; result = value_in_base / to.to_base`
 
-- Accesos de conversiones rápidas por categoría.
+## Uso
+
+1. Abre `index.html` en tu navegador.
+2. Selecciona el modo de catálogo que prefieras.
+3. Elige categoría, valor, unidad origen y unidad destino.
+4. Presiona **Convertir** (o usa una tarjeta de conversión rápida).
