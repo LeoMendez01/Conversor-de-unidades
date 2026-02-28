@@ -3,7 +3,9 @@
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
@@ -57,7 +59,9 @@ body {
   border-right: 1px solid rgba(148, 163, 184, 0.45);
 }
 
-.meta span:last-child { border-right: none; }
+.meta span:last-child {
+  border-right: none;
+}
 
 .hero-actions {
   margin-top: 0.85rem;
@@ -143,10 +147,21 @@ body {
   background: rgba(34, 211, 238, 0.22);
 }
 
-.section-title h2 { margin: 0; font-size: 1.05rem; }
-.grid { display: grid; gap: 0.6rem; }
+.section-title h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
 
-label { display: flex; flex-direction: column; gap: 0.3rem; }
+.grid {
+  display: grid;
+  gap: 0.6rem;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
 
 .label-title {
   color: #93c5fd;
@@ -180,7 +195,9 @@ button {
   font-weight: 800;
 }
 
-#swapButton { font-size: 1.05rem; }
+#swapButton {
+  font-size: 1.05rem;
+}
 
 .result {
   margin-top: 0.85rem;
@@ -191,7 +208,9 @@ button {
   font-weight: 700;
 }
 
-.quick-conversions { margin-top: 0.9rem; }
+.quick-conversions {
+  margin-top: 0.9rem;
+}
 
 .quick-conversions h3 {
   margin: 0 0 0.45rem;

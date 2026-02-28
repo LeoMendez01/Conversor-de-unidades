@@ -14,9 +14,18 @@ const globalButton = document.getElementById('globalButton');
 const allButton = document.getElementById('allButton');
 
 const CATEGORY_ICONS = {
-  longitud: '📏', superficie: '🧱', volumen: '🧪', otras_volumen: '🥤',
-  masa_y_peso: '⚖️', peso_miel: '🍯', otras_masa_y_peso: '📦',
-  unidad: '🔢', otras_unidad: '🧺', energia: '⚡', potencia: '🔋', presion: '🌡️'
+  longitud: '📏',
+  superficie: '🧱',
+  volumen: '🧪',
+  otras_volumen: '🥤',
+  masa_y_peso: '⚖️',
+  peso_miel: '🍯',
+  otras_masa_y_peso: '📦',
+  unidad: '🔢',
+  otras_unidad: '🧺',
+  energia: '⚡',
+  potencia: '🔋',
+  presion: '🌡️'
 };
 
 const LOCAL_CATEGORY_IDS = ['longitud', 'superficie', 'volumen', 'otras_volumen', 'masa_y_peso', 'peso_miel', 'otras_masa_y_peso', 'unidad', 'otras_unidad'];
@@ -28,9 +37,11 @@ function getCategoriesByMode() {
   if (currentMode === 'local') {
     return UNITS_CATALOG.categories.filter((category) => LOCAL_CATEGORY_IDS.includes(category.id));
   }
+
   if (currentMode === 'global') {
     return UNITS_CATALOG.categories.filter((category) => INTERNATIONAL_CATEGORY_IDS.includes(category.id));
   }
+
   return UNITS_CATALOG.categories;
 }
 
@@ -49,6 +60,7 @@ function updateCategoryHeader(category) {
 
 function setActiveModeButton() {
   [salvadorButton, globalButton, allButton].forEach((button) => button.classList.remove('active'));
+
   if (currentMode === 'local') salvadorButton.classList.add('active');
   if (currentMode === 'global') globalButton.classList.add('active');
   if (currentMode === 'all') allButton.classList.add('active');
