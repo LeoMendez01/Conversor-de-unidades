@@ -1,188 +1,146 @@
-const categorySelect = document.getElementById('categorySelect');
-const categoryIcon = document.getElementById('categoryIcon');
-const categoryTitle = document.getElementById('categoryTitle');
-const valueInput = document.getElementById('valueInput');
-const fromSelect = document.getElementById('fromSelect');
-const toSelect = document.getElementById('toSelect');
-const swapButton = document.getElementById('swapButton');
-const convertButton = document.getElementById('convertButton');
-const resultBox = document.getElementById('resultBox');
-const ruleText = document.getElementById('ruleText');
-const quickCards = document.getElementById('quickCards');
-const salvadorButton = document.getElementById('salvadorButton');
-const globalButton = document.getElementById('globalButton');
-const allButton = document.getElementById('allButton');
+const $ = (id) => document.getElementById(id);
 
-const CATEGORY_ICONS = {
-  longitud: '📏',
-  superficie: '🧱',
-  volumen: '🧪',
-  otras_volumen: '🥤',
-  masa_y_peso: '⚖️',
-  peso_miel: '🍯',
-  otras_masa_y_peso: '📦',
-  unidad: '🔢',
-  otras_unidad: '🧺',
-  energia: '⚡',
-  potencia: '🔋',
-  presion: '🌡️'
+const ui = {
+  categorySelect: $('categorySelect'),
+  categoryIcon: $('categoryIcon'),
+  categoryTitle: $('categoryTitle'),
+  valueInput: $('valueInput'),
+  fromSelect: $('fromSelect'),
+  toSelect: $('toSelect'),
+  swapButton: $('swapButton'),
+  convertButton: $('convertButton'),
+  resultBox: $('resultBox'),
+  ruleText: $('ruleText'),
+  quickCards: $('quickCards'),
+  btnLocal: $('btn-local'),
+  btnGlobal: $('btn-global'),
+  btnAll: $('btn-all')
 };
 
-const LOCAL_CATEGORY_IDS = ['longitud', 'superficie', 'volumen', 'otras_volumen', 'masa_y_peso', 'peso_miel', 'otras_masa_y_peso', 'unidad', 'otras_unidad'];
-const INTERNATIONAL_CATEGORY_IDS = ['energia', 'potencia', 'presion', 'longitud', 'superficie', 'volumen', 'masa_y_peso'];
+const ICONS = {
+  longitud: '📏', superficie: '🧱', volumen: '🧪', otras_volumen: '🥤',
+  masa_y_peso: '⚖️', peso_miel: '🍯', otras_masa_y_peso: '📦', unidad: '🔢',
+  otras_unidad: '🧺', energia: '⚡', potencia: '🔋', presion: '🌡️'
+};
 
-let currentMode = 'local';
+const LOCAL = ['longitud', 'superficie', 'volumen', 'otras_volumen', 'masa_y_peso', 'peso_miel', 'otras_masa_y_peso', 'unidad', 'otras_unidad'];
+const GLOBAL = ['energia', 'potencia', 'presion', 'longitud', 'superficie', 'volumen', 'masa_y_peso'];
+let mode = 'local';
 
-function getCategoriesByMode() {
-  if (currentMode === 'local') {
-    return UNITS_CATALOG.categories.filter((category) => LOCAL_CATEGORY_IDS.includes(category.id));
-  }
-
-  if (currentMode === 'global') {
-    return UNITS_CATALOG.categories.filter((category) => INTERNATIONAL_CATEGORY_IDS.includes(category.id));
-  }
-
+function categoriesByMode() {
+  if (mode === 'local') return UNITS_CATALOG.categories.filter((c) => LOCAL.includes(c.id));
+  if (mode === 'global') return UNITS_CATALOG.categories.filter((c) => GLOBAL.includes(c.id));
   return UNITS_CATALOG.categories;
 }
 
-function formatUnit(unit) {
-  return `${unit.name} (${unit.symbol})`;
+function currentCategory() {
+  return categoriesByMode().find((c) => c.id === ui.categorySelect.value);
 }
 
-function getCurrentCategory() {
-  return getCategoriesByMode().find((category) => category.id === categorySelect.value);
-}
-
-function updateCategoryHeader(category) {
-  categoryTitle.textContent = category.name;
-  categoryIcon.textContent = CATEGORY_ICONS[category.id] || '📐';
-}
-
-function setActiveModeButton() {
-  [salvadorButton, globalButton, allButton].forEach((button) => button.classList.remove('active'));
-
-  if (currentMode === 'local') salvadorButton.classList.add('active');
-  if (currentMode === 'global') globalButton.classList.add('active');
-  if (currentMode === 'all') allButton.classList.add('active');
-}
-
-function loadCategories() {
-  const categories = getCategoriesByMode();
-  categorySelect.innerHTML = '';
-
-  categories.forEach((category) => {
+function fillCategories() {
+  const list = categoriesByMode();
+  ui.categorySelect.innerHTML = '';
+  list.forEach((category) => {
     const option = document.createElement('option');
     option.value = category.id;
-    option.textContent = `${CATEGORY_ICONS[category.id] || '📐'} ${category.name}`;
-    categorySelect.appendChild(option);
+    option.textContent = `${ICONS[category.id] || '📐'} ${category.name}`;
+    ui.categorySelect.appendChild(option);
   });
-
-  if (categories.length > 0) {
-    loadUnits(categories[0].id);
-  }
+  if (list[0]) fillUnits(list[0].id);
 }
 
-function loadUnits(categoryId) {
-  const category = getCategoriesByMode().find((item) => item.id === categoryId);
+function fillUnits(categoryId) {
+  const category = categoriesByMode().find((c) => c.id === categoryId);
   if (!category) return;
 
-  fromSelect.innerHTML = '';
-  toSelect.innerHTML = '';
+  ui.categoryTitle.textContent = category.name;
+  ui.categoryIcon.textContent = ICONS[category.id] || '📐';
+
+  ui.fromSelect.innerHTML = '';
+  ui.toSelect.innerHTML = '';
 
   category.units.forEach((unit) => {
-    const fromOption = document.createElement('option');
-    fromOption.value = unit.id;
-    fromOption.textContent = formatUnit(unit);
+    const from = document.createElement('option');
+    from.value = unit.id;
+    from.textContent = `${unit.name} (${unit.symbol})`;
 
-    const toOption = document.createElement('option');
-    toOption.value = unit.id;
-    toOption.textContent = formatUnit(unit);
+    const to = document.createElement('option');
+    to.value = unit.id;
+    to.textContent = `${unit.name} (${unit.symbol})`;
 
-    fromSelect.appendChild(fromOption);
-    toSelect.appendChild(toOption);
+    ui.fromSelect.appendChild(from);
+    ui.toSelect.appendChild(to);
   });
 
-  if (category.units.length > 1) {
-    toSelect.selectedIndex = 1;
-  }
-
-  updateCategoryHeader(category);
-  renderQuickConversions(category);
+  if (category.units.length > 1) ui.toSelect.selectedIndex = 1;
+  renderQuick(category);
 }
 
 function convert() {
-  const category = getCurrentCategory();
+  const category = currentCategory();
   if (!category) return;
 
-  const from = category.units.find((unit) => unit.id === fromSelect.value);
-  const to = category.units.find((unit) => unit.id === toSelect.value);
-  const value = Number(valueInput.value);
+  const from = category.units.find((u) => u.id === ui.fromSelect.value);
+  const to = category.units.find((u) => u.id === ui.toSelect.value);
+  const value = Number(ui.valueInput.value);
 
   if (Number.isNaN(value)) {
-    resultBox.textContent = '⚠️ Ingresa un valor numérico válido.';
+    ui.resultBox.textContent = '⚠️ Ingresa un valor numérico válido.';
     return;
   }
 
-  const valueInBase = value * from.to_base;
-  const result = valueInBase / to.to_base;
-
-  resultBox.textContent = `✅ ${value} ${from.name} = ${result.toLocaleString('es-ES', {
-    maximumFractionDigits: 10
-  })} ${to.name}`;
+  const result = (value * from.to_base) / to.to_base;
+  ui.resultBox.textContent = `✅ ${value} ${from.name} = ${result.toLocaleString('es-ES', { maximumFractionDigits: 10 })} ${to.name}`;
 }
 
 function swapUnits() {
-  const fromValue = fromSelect.value;
-  fromSelect.value = toSelect.value;
-  toSelect.value = fromValue;
+  const tmp = ui.fromSelect.value;
+  ui.fromSelect.value = ui.toSelect.value;
+  ui.toSelect.value = tmp;
   convert();
 }
 
-function renderQuickConversions(category) {
-  quickCards.innerHTML = '';
-  const topUnits = category.units.slice(0, 4);
-
-  topUnits.forEach((unit, index) => {
+function renderQuick(category) {
+  ui.quickCards.innerHTML = '';
+  category.units.slice(0, 4).forEach((unit, index) => {
     const toUnit = category.units[index + 1] || category.units[0];
-    const sampleValue = index === 0 ? 1 : 10;
-    const result = (sampleValue * unit.to_base) / toUnit.to_base;
+    const sample = index === 0 ? 1 : 10;
+    const result = (sample * unit.to_base) / toUnit.to_base;
 
     const card = document.createElement('button');
-    card.className = 'quick-card';
     card.type = 'button';
-    card.textContent = `${sampleValue} ${unit.symbol} → ${result.toLocaleString('es-ES', { maximumFractionDigits: 4 })} ${toUnit.symbol}`;
+    card.className = 'quick-card';
+    card.textContent = `${sample} ${unit.symbol} → ${result.toLocaleString('es-ES', { maximumFractionDigits: 4 })} ${toUnit.symbol}`;
     card.addEventListener('click', () => {
-      valueInput.value = sampleValue;
-      fromSelect.value = unit.id;
-      toSelect.value = toUnit.id;
+      ui.valueInput.value = sample;
+      ui.fromSelect.value = unit.id;
+      ui.toSelect.value = toUnit.id;
       convert();
     });
-
-    quickCards.appendChild(card);
+    ui.quickCards.appendChild(card);
   });
 }
 
-function changeMode(mode) {
-  currentMode = mode;
-  setActiveModeButton();
-  loadCategories();
+function setMode(nextMode) {
+  mode = nextMode;
+  [ui.btnLocal, ui.btnGlobal, ui.btnAll].forEach((b) => b.classList.remove('active'));
+  if (mode === 'local') ui.btnLocal.classList.add('active');
+  if (mode === 'global') ui.btnGlobal.classList.add('active');
+  if (mode === 'all') ui.btnAll.classList.add('active');
+  fillCategories();
   convert();
 }
 
-ruleText.textContent = UNITS_CATALOG.conversion_rule;
-setActiveModeButton();
-loadCategories();
+ui.ruleText.textContent = UNITS_CATALOG.conversion_rule;
+fillCategories();
 convert();
 
-categorySelect.addEventListener('change', (event) => {
-  loadUnits(event.target.value);
-  convert();
-});
-convertButton.addEventListener('click', convert);
-swapButton.addEventListener('click', swapUnits);
-fromSelect.addEventListener('change', convert);
-toSelect.addEventListener('change', convert);
-valueInput.addEventListener('input', convert);
-salvadorButton.addEventListener('click', () => changeMode('local'));
-globalButton.addEventListener('click', () => changeMode('global'));
-allButton.addEventListener('click', () => changeMode('all'));
+ui.categorySelect.addEventListener('change', (event) => { fillUnits(event.target.value); convert(); });
+ui.fromSelect.addEventListener('change', convert);
+ui.toSelect.addEventListener('change', convert);
+ui.valueInput.addEventListener('input', convert);
+ui.swapButton.addEventListener('click', swapUnits);
+ui.convertButton.addEventListener('click', convert);
+ui.btnLocal.addEventListener('click', () => setMode('local'));
+ui.btnGlobal.addEventListener('click', () => setMode('global'));
+ui.btnAll.addEventListener('click', () => setMode('all'));

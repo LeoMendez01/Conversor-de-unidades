@@ -1,6 +1,6 @@
 const UNITS_CATALOG = {
   "schema_version": "1.0",
-  "description": "Unit conversion catalog extracted from 'Unidades de medida.xlsx'. 'to_base' converts a value in unit -> base unit for that category.",
+  "description": "Catálogo unificado de unidades para Conversor SV Pro.",
   "categories": [
     {
       "id": "longitud",
