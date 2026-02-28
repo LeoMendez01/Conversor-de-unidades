@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conversor SV Pro</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="top">
+        <h1>Conversor SV Pro</h1>
+        <p>Unidades salvadoreñas e internacionales en una sola app.</p>
+      </header>
+
+      <nav class="modes" aria-label="Modos de catálogo">
+        <button id="btn-local" class="mode active" type="button">Unidades salvadoreñas</button>
+        <button id="btn-global" class="mode" type="button">Internacionales</button>
+        <button id="btn-all" class="mode" type="button">Todas</button>
+      </nav>
+
+      <section class="card">
+        <div class="title-row">
+          <span id="categoryIcon" class="icon">📏</span>
+          <h2 id="categoryTitle">Longitud</h2>
+        </div>
+
+        <label>Categoría<select id="categorySelect"></select></label>
+        <label>Valor<input id="valueInput" type="number" step="any" value="1" /></label>
+        <label>Desde<select id="fromSelect"></select></label>
+        <label>Hacia<select id="toSelect"></select></label>
+
+        <div class="actions">
+          <button id="swapButton" type="button">🔁</button>
+          <button id="convertButton" class="primary" type="button">Convertir</button>
+        </div>
+      </section>
+
+      <section id="resultBox" class="result" aria-live="polite">Selecciona una conversión.</section>
+
+      <section class="quick">
+        <h3>Conversiones rápidas</h3>
+        <div id="quickCards" class="quick-grid"></div>
+      </section>
+
+      <details>
+        <summary>Regla de conversión</summary>
+        <code id="ruleText"></code>
+      </details>
+    </main>
+
+    <script src="units-data.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
