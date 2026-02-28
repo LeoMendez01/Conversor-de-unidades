@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conversor de Unidades</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Conversor de unidades</h1>
+      <p class="subtitle">Convierte entre unidades usando el catálogo proporcionado.</p>
+
+      <div class="grid">
+        <label>
+          Categoría
+          <select id="categorySelect"></select>
+        </label>
+
+        <label>
+          Valor
+          <input id="valueInput" type="number" step="any" value="1" />
+        </label>
+
+        <label>
+          Desde
+          <select id="fromSelect"></select>
+        </label>
+
+        <label>
+          Hacia
+          <select id="toSelect"></select>
+        </label>
+      </div>
+
+      <button id="convertButton">Convertir</button>
+
+      <section class="result" id="resultBox" aria-live="polite">
+        Selecciona una conversión.
+      </section>
+
+      <details>
+        <summary>Regla de conversión</summary>
+        <code id="ruleText"></code>
+      </details>
+    </main>
+
+    <script src="units-data.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
